@@ -16,7 +16,7 @@ enum GlassLevel {
 
 /// Resolves glass effect parameters for the current theme brightness.
 ///
-/// Use [Glass.of] to get the right [GlassSpec] for a given level.
+/// Use [GlassSpec.of] to get the right [GlassSpec] for a given level.
 class GlassSpec {
   final Color backgroundColor;
   final double blur;
@@ -32,7 +32,7 @@ class GlassSpec {
 
   ImageFilter get filter => ImageFilter.blur(sigmaX: blur, sigmaY: blur);
 
-  factory Glass.of(BuildContext context, GlassLevel level) {
+  factory GlassSpec.of(BuildContext context, GlassLevel level) {
     final brightness = Theme.of(context).brightness;
     switch (level) {
       case GlassLevel.card:

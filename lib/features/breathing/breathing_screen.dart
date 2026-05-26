@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../core/localization/app_localizations.dart';
 import '../../shared/calm_bg.dart';
 import '../../theme/colors.dart';
 import 'breathing_provider.dart';
@@ -52,13 +53,14 @@ class _BreathingScreenState extends ConsumerState<BreathingScreen>
     final state = ref.watch(breathingProvider);
     final brightness = Theme.of(context).brightness;
     final accent = AppColors.accent(brightness);
+    final l10n = AppLocalizations.of(context);
 
     final ringScale = _animCtrl != null && _animCtrl!.isAnimating
         ? _computeScale(_animCtrl!.value)
         : _minScale;
 
     final phaseLabel = _animCtrl != null && _animCtrl!.isAnimating
-        ? _phaseLabel(_animCtrl!.value)
+        ? _phaseLabel(_animCtrl!.value, l10n)
         : '';
 
     return CalmBg(
@@ -67,19 +69,16 @@ class _BreathingScreenState extends ConsumerState<BreathingScreen>
           children: [
             const Spacer(flex: 3),
 
-            // ── Breathing ring ──
             SizedBox(
               width: 260,
               height: 260,
               child: Stack(
                 alignment: Alignment.center,
                 children: [
-                  // Track
                   CustomPaint(
                     size: const Size(260, 260),
                     painter: _TrackPainter(accent),
                   ),
-                  // Animated ring
                   AnimatedBuilder(
                     animation:
                         _animCtrl ?? AnimationController(vsync: this),
@@ -96,7 +95,6 @@ class _BreathingScreenState extends ConsumerState<BreathingScreen>
                       );
                     },
                   ),
-                  // Label
                   if (state.isRunning)
                     Text(
                       phaseLabel,
@@ -107,7 +105,7 @@ class _BreathingScreenState extends ConsumerState<BreathingScreen>
                     )
                   else
                     Text(
-                      'Breathe',
+                      l10n.breatheIdle,
                       style: Theme.of(context)
                           .textTheme
                           .titleLarge
@@ -121,19 +119,17 @@ class _BreathingScreenState extends ConsumerState<BreathingScreen>
 
             const SizedBox(height: 48),
 
-            // ── Session info ──
             if (state.isRunning || state.cyclesCompleted > 0)
               Padding(
                 padding: const EdgeInsets.only(bottom: 24),
                 child: Text(
                   state.isRunning
-                      ? '${state.cyclesCompleted + 1} cycles'
-                      : '${state.cyclesCompleted} cycles · ${_fmtDuration(state.sessionSeconds)}',
+                      ? '${state.cyclesCompleted + 1} ${l10n.breathingCycles}'
+                      : '${state.cyclesCompleted} ${l10n.breathingCycles} · ${_fmtDuration(state.sessionSeconds)}',
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ),
 
-            // ── Start / Stop ──
             GestureDetector(
               onTap: state.isRunning ? _stop : _start,
               child: Container(
@@ -157,7 +153,7 @@ class _BreathingScreenState extends ConsumerState<BreathingScreen>
 
             const SizedBox(height: 8),
             Text(
-              state.isRunning ? 'Stop' : 'Start',
+              state.isRunning ? l10n.stopBtn : l10n.startBtn,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     fontSize: 12,
                   ),
@@ -185,11 +181,11 @@ class _BreathingScreenState extends ConsumerState<BreathingScreen>
     }
   }
 
-  String _phaseLabel(double t) {
-    if (t < 0.25) return 'Breathe in';
-    if (t < 0.5) return 'Hold';
-    if (t < 0.75) return 'Breathe out';
-    return 'Hold';
+  String _phaseLabel(double t, AppLocalizations l10n) {
+    if (t < 0.25) return l10n.breatheIn;
+    if (t < 0.5) return l10n.breatheHold;
+    if (t < 0.75) return l10n.breatheOut;
+    return l10n.breatheHold;
   }
 
   String _fmtDuration(int seconds) {
@@ -241,7 +237,6 @@ class _BreathingRingPainter extends CustomPainter {
       paint,
     );
 
-    // Glow
     final glow = Paint()
       ..color = color.withValues(alpha: opacity * 0.45)
       ..style = PaintingStyle.stroke

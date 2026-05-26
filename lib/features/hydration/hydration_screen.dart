@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../core/localization/app_localizations.dart';
 import '../../shared/calm_bg.dart';
 import '../../theme/colors.dart';
 import 'hydration_provider.dart';
@@ -12,6 +13,7 @@ class HydrationScreen extends ConsumerWidget {
     final state = ref.watch(hydrationProvider);
     final notifier = ref.read(hydrationProvider.notifier);
     final brightness = Theme.of(context).brightness;
+    final l10n = AppLocalizations.of(context);
 
     return CalmBg(
       child: SizedBox.expand(
@@ -19,7 +21,6 @@ class HydrationScreen extends ConsumerWidget {
           children: [
             const Spacer(flex: 4),
 
-            // Glass counter
             _WaterGlasses(
               count: state.glassesToday,
               goal: state.dailyGoal,
@@ -27,13 +28,12 @@ class HydrationScreen extends ConsumerWidget {
 
             const SizedBox(height: 12),
             Text(
-              '${state.glassesToday} of ${state.dailyGoal}',
+              '${state.glassesToday} ${l10n.ofGoal} ${state.dailyGoal}',
               style: Theme.of(context).textTheme.bodyMedium,
             ),
 
             const Spacer(),
 
-            // Add button
             GestureDetector(
               onTap: () => notifier.addGlass(),
               child: Container(
@@ -57,18 +57,17 @@ class HydrationScreen extends ConsumerWidget {
 
             const SizedBox(height: 8),
             Text(
-              'Tap to log a glass',
+              l10n.tapToLog,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     fontSize: 12,
                   ),
             ),
 
-            // Undo
             if (state.glassesToday > 0)
               TextButton(
                 onPressed: () => notifier.removeGlass(),
                 child: Text(
-                  'Undo',
+                  l10n.undoBtn,
                   style: TextStyle(
                     color: AppColors.textSecondary(brightness),
                     fontSize: 13,
@@ -84,7 +83,6 @@ class HydrationScreen extends ConsumerWidget {
   }
 }
 
-/// Draws a row of glass icons — filled and unfilled.
 class _WaterGlasses extends StatelessWidget {
   final int count;
   final int goal;

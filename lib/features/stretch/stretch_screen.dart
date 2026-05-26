@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../core/localization/app_localizations.dart';
 import '../../shared/calm_bg.dart';
 import '../../theme/colors.dart';
 
@@ -9,6 +10,7 @@ class StretchScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final brightness = Theme.of(context).brightness;
+    final l10n = AppLocalizations.of(context);
 
     return CalmBg(
       child: SizedBox.expand(
@@ -22,12 +24,12 @@ class StretchScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 24),
             Text(
-              'Gentle movements',
+              l10n.gentleMovements,
               style: Theme.of(context).textTheme.titleLarge,
             ),
             const SizedBox(height: 12),
             Text(
-              'Simple stretches and mobility exercises\nwill appear here soon.',
+              l10n.stretchSoon,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                     color: AppColors.textSecondary(brightness),

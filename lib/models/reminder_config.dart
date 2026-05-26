@@ -14,10 +14,24 @@ class ReminderConfig {
   final bool quietMode;
 
   @HiveField(3)
-  final String quietStart; // "22:00"
+  final String quietStart;
 
   @HiveField(4)
-  final String quietEnd; // "08:00"
+  final String quietEnd;
+
+  // ── Notification preferences ──
+
+  @HiveField(5)
+  final bool normalSound;
+
+  @HiveField(6)
+  final bool normalVibrate;
+
+  @HiveField(7)
+  final bool urgentSound;
+
+  @HiveField(8)
+  final bool urgentVibrate;
 
   const ReminderConfig({
     this.sedentaryIntervalMinutes = 45,
@@ -25,6 +39,10 @@ class ReminderConfig {
     this.quietMode = true,
     this.quietStart = '22:00',
     this.quietEnd = '08:00',
+    this.normalSound = false,
+    this.normalVibrate = true,
+    this.urgentSound = true,
+    this.urgentVibrate = true,
   });
 
   ReminderConfig copyWith({
@@ -33,6 +51,10 @@ class ReminderConfig {
     bool? quietMode,
     String? quietStart,
     String? quietEnd,
+    bool? normalSound,
+    bool? normalVibrate,
+    bool? urgentSound,
+    bool? urgentVibrate,
   }) =>
       ReminderConfig(
         sedentaryIntervalMinutes:
@@ -42,5 +64,9 @@ class ReminderConfig {
         quietMode: quietMode ?? this.quietMode,
         quietStart: quietStart ?? this.quietStart,
         quietEnd: quietEnd ?? this.quietEnd,
+        normalSound: normalSound ?? this.normalSound,
+        normalVibrate: normalVibrate ?? this.normalVibrate,
+        urgentSound: urgentSound ?? this.urgentSound,
+        urgentVibrate: urgentVibrate ?? this.urgentVibrate,
       );
 }
