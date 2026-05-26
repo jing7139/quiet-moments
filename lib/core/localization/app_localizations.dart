@@ -252,7 +252,8 @@ class AppLocalizations {
   static const delegate = _AppLocalizationsDelegate();
 
   static AppLocalizations of(BuildContext context) =>
-      Localizations.of<AppLocalizations>(context, AppLocalizations)!;
+      Localizations.of<AppLocalizations>(context, AppLocalizations) ??
+      AppLocalizations(resolvedLocale);
 }
 
 // ---------------------------------------------------------------------------
