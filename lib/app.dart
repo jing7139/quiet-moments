@@ -124,25 +124,31 @@ class _AppShell extends StatelessWidget {
       bottomNavigationBar: NavigationBar(
         selectedIndex: index,
         onDestinationSelected: (i) => _onTap(context, i),
+        labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
         destinations: [
           NavigationDestination(
             icon: const Icon(Icons.self_improvement_outlined),
+            selectedIcon: const Icon(Icons.self_improvement),
             label: l10n.homeTab,
           ),
           NavigationDestination(
             icon: const Icon(Icons.fitness_center_outlined),
+            selectedIcon: const Icon(Icons.fitness_center),
             label: l10n.moveTab,
           ),
           NavigationDestination(
             icon: const Icon(Icons.air_outlined),
+            selectedIcon: const Icon(Icons.air),
             label: l10n.breatheTab,
           ),
           NavigationDestination(
             icon: const Icon(Icons.water_drop_outlined),
+            selectedIcon: const Icon(Icons.water_drop),
             label: l10n.waterTab,
           ),
           NavigationDestination(
             icon: const Icon(Icons.show_chart_outlined),
+            selectedIcon: const Icon(Icons.show_chart),
             label: l10n.statsTab,
           ),
         ],
