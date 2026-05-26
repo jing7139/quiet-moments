@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'core/localization/app_localizations.dart';
+import 'theme/colors.dart';
 import 'features/sedentary/sedentary_screen.dart';
 import 'features/sedentary/sedentary_provider.dart';
 import 'features/stretch/stretch_screen.dart';
@@ -119,36 +120,46 @@ class _AppShell extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final index = _currentIndex(GoRouterState.of(context).uri.toString());
 
+    final brightness = Theme.of(context).brightness;
+    final accent = AppColors.accent(brightness);
+
     return Scaffold(
       body: child,
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: index,
-        onDestinationSelected: (i) => _onTap(context, i),
-        labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-        destinations: [
-          NavigationDestination(
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        currentIndex: index,
+        onTap: (i) => _onTap(context, i),
+        selectedItemColor: accent,
+        unselectedItemColor:
+            AppColors.textSecondary(brightness).withValues(alpha: 0.55),
+        backgroundColor: AppColors.surface2(brightness),
+        elevation: 0,
+        selectedFontSize: 11,
+        unselectedFontSize: 11,
+        items: [
+          BottomNavigationBarItem(
             icon: const Icon(Icons.self_improvement_outlined),
-            selectedIcon: const Icon(Icons.self_improvement),
+            activeIcon: const Icon(Icons.self_improvement),
             label: l10n.homeTab,
           ),
-          NavigationDestination(
+          BottomNavigationBarItem(
             icon: const Icon(Icons.fitness_center_outlined),
-            selectedIcon: const Icon(Icons.fitness_center),
+            activeIcon: const Icon(Icons.fitness_center),
             label: l10n.moveTab,
           ),
-          NavigationDestination(
+          BottomNavigationBarItem(
             icon: const Icon(Icons.air_outlined),
-            selectedIcon: const Icon(Icons.air),
+            activeIcon: const Icon(Icons.air),
             label: l10n.breatheTab,
           ),
-          NavigationDestination(
+          BottomNavigationBarItem(
             icon: const Icon(Icons.water_drop_outlined),
-            selectedIcon: const Icon(Icons.water_drop),
+            activeIcon: const Icon(Icons.water_drop),
             label: l10n.waterTab,
           ),
-          NavigationDestination(
+          BottomNavigationBarItem(
             icon: const Icon(Icons.show_chart_outlined),
-            selectedIcon: const Icon(Icons.show_chart),
+            activeIcon: const Icon(Icons.show_chart),
             label: l10n.statsTab,
           ),
         ],
