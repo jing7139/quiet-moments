@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 
 const _strings = <String, Map<String, String>>{
   // ── App shell ──
-  'appTitle': {'en': 'Moments', 'zh': '片刻'},
+  'appTitle': {'en': 'lovely doggy', 'zh': 'lovely doggy'},
   'homeTab': {'en': 'Home', 'zh': '首页'},
   'moveTab': {'en': 'Move', 'zh': '活动'},
   'breatheTab': {'en': 'Breathe', 'zh': '呼吸'},
