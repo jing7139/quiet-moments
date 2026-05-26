@@ -54,21 +54,11 @@ class WellnessApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations(AppLocalizations.resolvedLocale);
     return MaterialApp.router(
-      title: l10n.appTitle,
       debugShowCheckedModeBanner: false,
-      themeMode: ThemeMode.system,
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
       routerConfig: _router,
-      locale: Locale(AppLocalizations.resolvedLocale),
-      supportedLocales: const [Locale('en'), Locale('zh')],
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        DefaultMaterialLocalizations.delegate,
-        DefaultWidgetsLocalizations.delegate,
-      ],
     );
   }
 }
@@ -117,11 +107,11 @@ class _AppShell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
     final index = _currentIndex(GoRouterState.of(context).uri.toString());
-
     final brightness = Theme.of(context).brightness;
     final accent = AppColors.accent(brightness);
+
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
       body: child,
